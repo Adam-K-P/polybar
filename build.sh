@@ -44,8 +44,8 @@ function main
   read -r -p "$(msg "Enable mpd module ------ [Y/n]: ")" -n 1 p && echo
   [[ "${p^^}" != "Y" ]] && enable_mpd="OFF"
 
-  local cxx="c++"
-  local cc="cc"
+  local cxx="g++"
+  local cc="gcc"
 
   if command -v clang++ >/dev/null; then
     msg "Using compiler: clang++/clang"
@@ -56,6 +56,9 @@ function main
     cxx="g++"
     cc="gcc"
   fi
+
+  local cxx="g++"
+  local cc="gcc"
 
   msg "Executing cmake command"
   cmake                                       \
@@ -68,11 +71,11 @@ function main
     .. || msg_err "Failed to generate build... read output to get a hint of what went wrong"
 
   msg "Building project"
-  make || msg_err "Failed to build project"
+  make -j 12 || msg_err "Failed to build project"
 
   read -r -p "$(msg "Execute 'sudo make install'? [Y/n] ")" -n 1 p && echo
   [[ "${p^^}" == "Y" ]] && {
-    sudo make install || msg_err "Failed to install executables..."
+    sudo make -j 12 install || msg_err "Failed to install executables..."
   }
 
   read -r -p "$(msg "Install example configuration? [Y/n]: ")" -n 1 p && echo

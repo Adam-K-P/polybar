@@ -8,6 +8,15 @@
 
 POLYBAR_NS
 
+struct EnumClassHash
+{
+    template <typename T>
+    std::size_t operator()(T t) const
+    {
+      return static_cast<std::size_t>(t);
+    }
+};
+
 enum class edge : uint8_t { NONE = 0U, TOP, BOTTOM, LEFT, RIGHT, ALL };
 
 enum class alignment : uint8_t { NONE = 0U, LEFT, CENTER, RIGHT };
@@ -115,7 +124,7 @@ struct bar_settings {
   line_settings underline{};
   line_settings overline{};
 
-  std::unordered_map<edge, border_settings> borders{};
+  std::unordered_map<edge, border_settings, EnumClassHash> borders{};
 
   uint8_t spacing{1U};
   string separator{};

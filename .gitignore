@@ -8,3 +8,5 @@ tags
 include/config.hpp
 .tags
 examples/config
+/.idea*/
+/cmake-build-debug*/
